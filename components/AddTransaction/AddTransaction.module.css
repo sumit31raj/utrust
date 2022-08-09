@@ -1,0 +1,66 @@
+.transactions img {
+  margin: 20px;
+}
+
+.card {
+  background: #F5F5FF;
+  border: 1px solid rgba(105, 50, 212, 0.2);
+  box-shadow: 0px 8px 24px rgba(32, 37, 50, 0.15);
+  border-radius: 8px;
+  color: #202532;
+}
+
+.cardTitle {
+  font-size: 20px;
+  line-height: 28px;
+  background: #FFFFFF;
+  padding: 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom: 1px solid rgba(105, 50, 212, 0.2);
+}
+
+.cardBody {
+  padding: 20px;
+}
+
+.field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.field input {
+  border: 1px solid #6932D4;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  outline: none;
+}
+
+.amountInput {
+  font-size: 16px !important;
+  font-weight: 600;
+}
+
+.submitButton {
+  display: flex;
+  justify-content: end;
+}
+
+.submit {
+  background: #6932D4;
+  border-radius: 100px;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-size: 12px;
+  border: unset;
+  cursor: pointer;
+}
