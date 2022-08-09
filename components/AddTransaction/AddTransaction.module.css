@@ -1,5 +1,5 @@
 .transactions img {
-  margin: 20px;
+  margin-left: 30px;
 }
 
 .card {
@@ -8,6 +8,7 @@
   box-shadow: 0px 8px 24px rgba(32, 37, 50, 0.15);
   border-radius: 8px;
   color: #202532;
+  margin: 14px;
 }
 
 .cardTitle {
@@ -50,9 +51,13 @@
   font-weight: 600;
 }
 
+.amountInput::placeholder {
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .submitButton {
-  display: flex;
-  justify-content: end;
+  text-align: right;
 }
 
 .submit {
