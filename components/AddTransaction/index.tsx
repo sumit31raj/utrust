@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../common/Button";
 import styles from "./AddTransaction.module.css";
 
-const AddTransaction = () => {
+const AddTransaction = ({ handleMoveStep }: any) => {
   return (
     <div className={styles.card}>
       <div className={styles.cardTitle}>
@@ -38,7 +38,7 @@ const AddTransaction = () => {
             />
           </div>
           <div className={styles.submitButton}>
-            <Button text={"Send"} onClick={() => console.log("click")} />
+            <Button text={"Send"} onClick={() => handleMoveStep("next")} />
           </div>
         </form>
       </div>

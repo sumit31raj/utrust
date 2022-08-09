@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../common/Button';
 import styles from './Transactions.module.css'
 
-const Transactions = () => {
+const Transactions = ({ handleMoveStep }: any) => {
   return (
     <div className={styles.card}>
       <div className={styles.cardTitle}>My Ethereum addresses</div>
@@ -26,7 +26,7 @@ const Transactions = () => {
       </div>
       <div className={styles.cardFooter}>
         <p>Please copy the address from which you wish to send money.</p>
-        <Button text={'Next'} onClick={() => console.log('click')} />
+        <Button text={'Next'} onClick={() => handleMoveStep("next")} />
       </div>
     </div>
   )
