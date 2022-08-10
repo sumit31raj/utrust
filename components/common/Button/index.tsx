@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "./Button.module.css";
 
-const Button = ({ text, onClick }: any) => {
+const Button = ({ text, onClick, loader }: any) => {
   return (
     <div className={styles.button} onClick={onClick}>
-      {text}
+      {loader && <img src="/loader.svg" />}
+      <span>{text}</span>
     </div>
   );
 };
