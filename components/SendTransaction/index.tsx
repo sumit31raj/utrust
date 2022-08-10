@@ -32,16 +32,18 @@ const AddTransaction = () => {
         // Convert currency unit from ether to wei
         value: ethers.utils.parseEther(transactionData.amount),
       };
-      wallet.sendTransaction(tx).then((txObj) => {
-        console.log("txObj : ", txObj);
-        console.log("txHash", txObj.hash);
-        setLoader(false);
-        sessionStorage.setItem(
-          "transactionData",
-          JSON.stringify(transactionData)
-        );
-        router.push("/send/success");
-      });
+        wallet.sendTransaction(tx).then((txObj) => {
+          console.log("txObj : ", txObj);
+          console.log("txHash", txObj.hash);
+          setLoader(false);
+          sessionStorage.setItem(
+            "transactionData",
+            JSON.stringify(transactionData)
+          );
+          router.push("/send/success");
+        }).catch(error => {
+          console.log('error : ', error)
+        });
     } else {
       console.log("Invalid form");
     }
