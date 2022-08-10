@@ -2,11 +2,13 @@ import React from 'react';
 import Button from '../common/Button';
 import styles from './Transactions.module.css';
 import { useRouter } from 'next/router'
+import { ROUTES } from '../routes';
+import { NEXT } from '../../constants';
 
 const Transactions = () => {
   const router = useRouter()
   const handleNavigateToSend = () => {
-    router.push("/send")
+    router.push(ROUTES.SEND)
   }
 
   return (
@@ -32,7 +34,7 @@ const Transactions = () => {
       </div>
       <div className={styles.cardFooter}>
         <p>Please copy the address from which you wish to send money.</p>
-        <Button text={'Next'} onClick={handleNavigateToSend} />
+        <Button text={NEXT} onClick={handleNavigateToSend} />
       </div>
     </div>
   )

@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./TransactionSuccess.module.css";
+import { useRouter } from "next/router";
 
 const TransactionSuccess = () => {
+  const [transactionData, setTransactionData] = useState<any>("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const transaction = sessionStorage.getItem("transactionData");
+    if (transaction) {
+      setTransactionData(JSON.parse(transaction));
+    } else {
+      router.push("/");
+    }
+  }, []);
+
   return (
     <div className={styles.card}>
       <div className={styles.cardTitle}>Transaction complete</div>
@@ -11,17 +24,17 @@ const TransactionSuccess = () => {
         </div>
         <div className={styles.amountSummary}>
           <h4>You sent</h4>
-          <h1>0.76849 ETH</h1>
+          <h1>{transactionData?.amount} ETH</h1>
           <div className={styles.border}></div>
         </div>
         <div className={styles.transactionFlow}>
           <div className={styles.from}>
             <h5>From</h5>
-            <p>0xeb34a91523a687930f7244e76407952c5b239707</p>
+            <p>{transactionData?.from}</p>
           </div>
           <div className={styles.to}>
             <h5>To</h5>
-            <p>0xeb34a91523a687930f7244e76407952c5b239707</p>
+            <p>{transactionData?.to}</p>
           </div>
         </div>
       </div>

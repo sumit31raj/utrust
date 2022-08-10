@@ -3,12 +3,7 @@ import Button from "../common/Button";
 import styles from "./SendTransaction.module.css";
 import { ethers } from "ethers";
 import { useRouter } from 'next/router'
-
-const privateKey =
-  "8a97e21074bbf8bd06ce23d83cef754b493471e30ed79b4b2288f019281941d2";
-// let senderAddress = "0x970a8775c2D6d9E1C7c2904c685de752a1914105";
-// let receiverAddress = "0xF02c1c8e6114b1Dbe8937a39260b5b0a374432bB";
-// let amountInEther = "0.05";
+import { PRIVATE_KEY, SEND } from "../../constants";
 
 const AddTransaction = () => {
   const [loader, setLoader] = useState(false);
@@ -30,7 +25,7 @@ const AddTransaction = () => {
     if (transactionData.from && transactionData.to && transactionData.amount) {
       setLoader(true);
       let provider = ethers.getDefaultProvider("ropsten");
-      let wallet = new ethers.Wallet(privateKey, provider);
+      let wallet = new ethers.Wallet(PRIVATE_KEY, provider);
       let tx = {
         from: transactionData.from,
         to: transactionData.to,
@@ -41,10 +36,11 @@ const AddTransaction = () => {
         console.log("txObj : ", txObj);
         console.log("txHash", txObj.hash);
         setLoader(false);
+        sessionStorage.setItem("transactionData", JSON.stringify(transactionData))
         router.push("/send/success")
       });
     } else {
-      console.log("fields are required");
+      console.log("Invalid form");
     }
   };
 
@@ -89,7 +85,7 @@ const AddTransaction = () => {
             />
           </div>
           <div className={styles.submitButton}>
-            <Button text={"Send"} loader={loader} onClick={handleSend} />
+            <Button text={SEND} loader={loader} onClick={handleSend} />
           </div>
         </form>
       </div>
