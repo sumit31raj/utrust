@@ -1,10 +1,8 @@
-import type { NextPage } from 'next'
-import MainWrapper from '../components/MainWrapper'
+import type { NextPage } from "next";
+import Transactions from "../components/Transactions";
 
 const Home: NextPage = () => {
-  return (
-    <MainWrapper />
-  )
-}
+  return <Transactions />;
+};
 
-export default Home
+export default Home;

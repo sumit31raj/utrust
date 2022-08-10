@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Button from "../common/Button";
-import styles from "./AddTransaction.module.css";
+import styles from "./SendTransaction.module.css";
 import { ethers } from "ethers";
+import { useRouter } from 'next/router'
 
 const privateKey =
   "8a97e21074bbf8bd06ce23d83cef754b493471e30ed79b4b2288f019281941d2";
@@ -9,13 +10,14 @@ const privateKey =
 // let receiverAddress = "0xF02c1c8e6114b1Dbe8937a39260b5b0a374432bB";
 // let amountInEther = "0.05";
 
-const AddTransaction = ({ handleMoveStep }: any) => {
+const AddTransaction = () => {
   const [loader, setLoader] = useState(false);
   const [transactionData, setTransactionData] = useState<any>({
     from: "",
     to: "",
     amount: "",
   });
+  const router = useRouter()
 
   const handleChange = (e: any) => {
     setTransactionData((prevData: any) => ({
@@ -39,7 +41,7 @@ const AddTransaction = ({ handleMoveStep }: any) => {
         console.log("txObj : ", txObj);
         console.log("txHash", txObj.hash);
         setLoader(false);
-        handleMoveStep("next");
+        router.push("/send/success")
       });
     } else {
       console.log("fields are required");

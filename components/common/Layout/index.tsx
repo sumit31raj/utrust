@@ -4,8 +4,10 @@ import styles from "./Layout.module.css";
 const Layout = ({ children }: any) => {
   return (
     <div className={styles.layout}>
-      <img src="/Logo.svg" className={styles.logo} alt="Log" />
-      {children}
+      <div className={styles.wrapper}>
+        <img src="/Logo.svg" className={styles.logo} alt="Log" />
+        {children}
+      </div>
     </div>
   );
 };

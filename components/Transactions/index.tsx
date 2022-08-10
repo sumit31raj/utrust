@@ -1,8 +1,14 @@
 import React from 'react';
 import Button from '../common/Button';
-import styles from './Transactions.module.css'
+import styles from './Transactions.module.css';
+import { useRouter } from 'next/router'
 
-const Transactions = ({ handleMoveStep }: any) => {
+const Transactions = () => {
+  const router = useRouter()
+  const handleNavigateToSend = () => {
+    router.push("/send")
+  }
+
   return (
     <div className={styles.card}>
       <div className={styles.cardTitle}>My Ethereum addresses</div>
@@ -26,7 +32,7 @@ const Transactions = ({ handleMoveStep }: any) => {
       </div>
       <div className={styles.cardFooter}>
         <p>Please copy the address from which you wish to send money.</p>
-        <Button text={'Next'} onClick={() => handleMoveStep("next")} />
+        <Button text={'Next'} onClick={handleNavigateToSend} />
       </div>
     </div>
   )
