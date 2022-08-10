@@ -1,7 +1,13 @@
 import React from "react";
 import styles from "./Button.module.css";
 
-const Button = ({ text, onClick, loader }: any) => {
+interface IButton {
+  text: String,
+  loader?: Boolean,
+  onClick: () => void;
+}
+
+const Button = ({ text, onClick, loader }: IButton) => {
   return (
     <div className={styles.button} onClick={onClick}>
       {loader && <img src="/loader.svg" />}

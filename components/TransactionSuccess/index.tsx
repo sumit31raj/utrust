@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styles from "./TransactionSuccess.module.css";
 import { useRouter } from "next/router";
 
+import styles from "./TransactionSuccess.module.css";
+import { ITransactionData } from "../../interfaces";
+import constants from "../../constants";
+
 const TransactionSuccess = () => {
-  const [transactionData, setTransactionData] = useState<any>("");
+  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.FORM);
   const router = useRouter();
 
   useEffect(() => {

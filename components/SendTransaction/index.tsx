@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import Button from "../common/Button";
-import styles from "./SendTransaction.module.css";
+import { useRouter } from "next/router";
 import { ethers } from "ethers";
-import { useRouter } from 'next/router'
-import { PRIVATE_KEY, SEND } from "../../constants";
+
+import Button from "../common/Button";
+import CONSTANT from "../../constants";
+import { ITransactionData } from "../../interfaces";
+
+import styles from "./SendTransaction.module.css";
+import constants from "../../constants";
 
 const AddTransaction = () => {
-  const [loader, setLoader] = useState(false);
-  const [transactionData, setTransactionData] = useState<any>({
-    from: "",
-    to: "",
-    amount: "",
-  });
-  const router = useRouter()
+  const [loader, setLoader] = useState<Boolean>(false);
+  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.FORM);
+  const router = useRouter();
 
-  const handleChange = (e: any) => {
-    setTransactionData((prevData: any) => ({
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTransactionData((prevData: ITransactionData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
@@ -25,7 +25,7 @@ const AddTransaction = () => {
     if (transactionData.from && transactionData.to && transactionData.amount) {
       setLoader(true);
       let provider = ethers.getDefaultProvider("ropsten");
-      let wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+      let wallet = new ethers.Wallet(CONSTANT.PRIVATE_KEY, provider);
       let tx = {
         from: transactionData.from,
         to: transactionData.to,
@@ -36,8 +36,11 @@ const AddTransaction = () => {
         console.log("txObj : ", txObj);
         console.log("txHash", txObj.hash);
         setLoader(false);
-        sessionStorage.setItem("transactionData", JSON.stringify(transactionData))
-        router.push("/send/success")
+        sessionStorage.setItem(
+          "transactionData",
+          JSON.stringify(transactionData)
+        );
+        router.push("/send/success");
       });
     } else {
       console.log("Invalid form");
@@ -85,7 +88,7 @@ const AddTransaction = () => {
             />
           </div>
           <div className={styles.submitButton}>
-            <Button text={SEND} loader={loader} onClick={handleSend} />
+            <Button text={CONSTANT.SEND} loader={loader} onClick={handleSend} />
           </div>
         </form>
       </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import type { NextPage } from "next";
+
 import TransactionSuccess from "../../components/TransactionSuccess";
 
 const Success: NextPage = () => {

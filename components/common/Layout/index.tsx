@@ -1,7 +1,12 @@
 import React from "react";
+
 import styles from "./Layout.module.css";
 
-const Layout = ({ children }: any) => {
+interface ILayout {
+  children: JSX.Element
+}
+
+const Layout = ({ children }: ILayout) => {
   return (
     <div className={styles.layout}>
       <div className={styles.wrapper}>
