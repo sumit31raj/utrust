@@ -1,9 +1,17 @@
 import React from "react";
 import constants from "../../constants";
+import { IAddress } from "../../interfaces";
 import Button from "../common/Button";
 import styles from "./Transactions.module.css";
 
-const NewAddress = ({ newAddress, toggleModal, handleChange, handleAdd }: any) => {
+interface INewAddressProps {
+  newAddress: IAddress,
+  toggleModal: () => void,
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  handleAdd: () => void
+}
+
+const NewAddress = ({ newAddress, toggleModal, handleChange, handleAdd }: INewAddressProps) => {
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>

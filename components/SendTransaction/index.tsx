@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 import Button from "../common/Button";
 import CONSTANT from "../../constants";
-import { ITransactionData } from "../../interfaces";
+import { IAddress, ITransactionData } from "../../interfaces";
 import constants from "../../constants";
 import {
   checkAddress,
@@ -16,7 +16,7 @@ import styles from "./SendTransaction.module.css";
 
 const AddTransaction = () => {
   const [loader, setLoader] = useState<Boolean>(false);
-  const [addresses, setAddresses] = useState<any[]>([]);
+  const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [transactionData, setTransactionData] = useState<ITransactionData>(
     constants.TRANSACTION_FORM
   );
@@ -32,10 +32,10 @@ const AddTransaction = () => {
   };
 
   useEffect(() => {
-    const prevAddress: any[] = JSON.parse(
+    const prevAddresses: IAddress[] = JSON.parse(
       sessionStorage.getItem(constants.ADDRESSES) || "[]"
     );
-    setAddresses(prevAddress);
+    setAddresses(prevAddresses);
   }, []);
 
   const handleSend = async () => {
@@ -54,7 +54,6 @@ const AddTransaction = () => {
         };
         try {
           const transaction = await sendTransaction(tx);
-          console.log("transaction success : ", transaction);
           setLoader(false);
           sessionStorage.setItem(
             constants.TRANSACTION_DATA,

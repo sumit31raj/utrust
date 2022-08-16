@@ -3,3 +3,9 @@ export interface ITransactionData {
   to: string;
   amount: string;
 }
+
+export interface IAddress {
+  address: string,
+  privateKey: string,
+  balance: string
+}

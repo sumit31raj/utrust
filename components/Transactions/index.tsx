@@ -9,9 +9,10 @@ import constants from "../../constants";
 import NewAddress from "./NewAddress";
 
 import styles from "./Transactions.module.css";
+import { IAddress } from "../../interfaces";
 
 const Transactions = () => {
-  const [addresses, setAddresses] = useState<any[]>([]);
+  const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [isModal, setIsModal] = useState(false);
   const [newAddress, setNewAddress] = useState(constants.NEW_ADDRESS);
   const router = useRouter();
@@ -21,7 +22,7 @@ const Transactions = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewAddress((prevData: any) => ({
+    setNewAddress((prevData: IAddress) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
@@ -33,7 +34,7 @@ const Transactions = () => {
       newAddress.privateKey &&
       checkAddress(newAddress.address)
     ) {
-      const prevAddress: any[] = JSON.parse(
+      const prevAddress: IAddress[] = JSON.parse(
         sessionStorage.getItem(constants.ADDRESSES) || "[]"
       );
       const address = {
@@ -54,10 +55,19 @@ const Transactions = () => {
   };
 
   useEffect(() => {
-    const prevAddress: any[] = JSON.parse(
-      sessionStorage.getItem(constants.ADDRESSES) || "[]"
-    );
-    setAddresses(prevAddress);
+    const fetchAddresses = async () => {
+      const prevAddress: IAddress[] = JSON.parse(
+        sessionStorage.getItem(constants.ADDRESSES) || "[]"
+      );
+      const tempAccounts: IAddress[] = [];
+      for (let index = 0; index < prevAddress.length; index++) {
+        const balance = await getBalance(prevAddress[index]?.address);
+        tempAccounts.push({ ...prevAddress[index], balance: balance });
+      }
+      setAddresses(tempAccounts);
+    };
+
+    fetchAddresses()
   }, []);
 
   return (
@@ -73,7 +83,7 @@ const Transactions = () => {
               <div className={styles.transactionItem} key={index}>
                 <h3 className={styles.address}>{account?.address}</h3>
                 <h2 className={styles.amount}>
-                  {account?.balance} <span>ETH</span>
+                  {(+account?.balance).toFixed(4)} <span>ETH</span>
                 </h2>
               </div>
             ))
