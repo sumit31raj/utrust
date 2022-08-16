@@ -15,10 +15,16 @@
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   border-bottom: 1px solid rgba(105, 50, 212, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cardBody {
   padding: 0 20px;
+  max-height: 315px;
+  min-height: 200px;
+  overflow: auto;
 }
 
 .transactionItem {
@@ -32,6 +38,12 @@
 
 .transactionItem:last-child {
   border-bottom: unset;
+}
+
+.notFound {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 .address {
@@ -48,6 +60,7 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   margin: 0;
+  margin-left: 20px;
 }
 
 .amount span {
@@ -79,4 +92,68 @@
   color: #ffffff;
   font-size: 12px;
   cursor: pointer;
+}
+
+.modal {
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modalContent {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 40%;
+  position: relative;
+}
+
+.close {
+  color: #aaaaaa;
+  position: absolute;
+  right: 15px;
+  top: 8px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.field input {
+  border: 1px solid #6932D4;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  outline: none;
+}
+
+.addButton {
+  width: fit-content;
+  margin: auto;
 }
