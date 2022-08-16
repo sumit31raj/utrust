@@ -6,11 +6,11 @@ import { ITransactionData } from "../../interfaces";
 import constants from "../../constants";
 
 const TransactionSuccess = () => {
-  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.FORM);
+  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.TRANSACTION_FORM);
   const router = useRouter();
 
   useEffect(() => {
-    const transaction = sessionStorage.getItem("transactionData");
+    const transaction = sessionStorage.getItem(constants.TRANSACTION_DATA);
     if (transaction) {
       setTransactionData(JSON.parse(transaction));
     } else {

@@ -1,49 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
 
 import Button from "../common/Button";
 import CONSTANT from "../../constants";
 import { ITransactionData } from "../../interfaces";
+import constants from "../../constants";
+import {
+  checkAddress,
+  checkAmount,
+  sendTransaction,
+} from "../../service/blockchain";
 
 import styles from "./SendTransaction.module.css";
-import constants from "../../constants";
 
 const AddTransaction = () => {
   const [loader, setLoader] = useState<Boolean>(false);
-  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.FORM);
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [transactionData, setTransactionData] = useState<ITransactionData>(
+    constants.TRANSACTION_FORM
+  );
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setTransactionData((prevData: ITransactionData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleSend = () => {
-    if (transactionData.from && transactionData.to && transactionData.amount) {
-      setLoader(true);
-      let provider = ethers.getDefaultProvider("ropsten");
-      let wallet = new ethers.Wallet(CONSTANT.PRIVATE_KEY, provider);
-      let tx = {
-        from: transactionData.from,
-        to: transactionData.to,
-        // Convert currency unit from ether to wei
-        value: ethers.utils.parseEther(transactionData.amount),
-      };
-        wallet.sendTransaction(tx).then((txObj) => {
-          console.log("txObj : ", txObj);
-          console.log("txHash", txObj.hash);
+  useEffect(() => {
+    const prevAddress: any[] = JSON.parse(
+      sessionStorage.getItem(constants.ADDRESSES) || "[]"
+    );
+    setAddresses(prevAddress);
+  }, []);
+
+  const handleSend = async () => {
+    if (
+      transactionData.from &&
+      transactionData.to &&
+      transactionData.amount &&
+      checkAddress(transactionData.to)
+    ) {
+      if (checkAmount(transactionData.amount, transactionData.from)) {
+        setLoader(true);
+        let tx = {
+          from: transactionData.from,
+          to: transactionData.to,
+          value: ethers.utils.parseEther(transactionData.amount),
+        };
+        try {
+          const transaction = await sendTransaction(tx);
+          console.log("transaction success : ", transaction);
           setLoader(false);
           sessionStorage.setItem(
-            "transactionData",
+            constants.TRANSACTION_DATA,
             JSON.stringify(transactionData)
           );
           router.push("/send/success");
-        }).catch(error => {
-          console.log('error : ', error)
-        });
+        } catch (error) {
+          console.log("error : ", error);
+          setLoader(false);
+        }
+      } else {
+        console.log("Invalid amount");
+      }
     } else {
       console.log("Invalid form");
     }
@@ -58,14 +82,21 @@ const AddTransaction = () => {
         <form>
           <div className={styles.field}>
             <label htmlFor="from">From</label>
-            <input
-              type="text"
-              id="from"
+            <select
               name="from"
-              placeholder="Your Address"
+              id="from"
               value={transactionData.from}
               onChange={handleChange}
-            />
+            >
+              <option selected disabled value={""} hidden>
+                Your Address
+              </option>
+              {addresses.map((account, index) => (
+                <option key={index} value={account.address}>
+                  {account.address}
+                </option>
+              ))}
+            </select>
           </div>
           <div className={styles.field}>
             <label htmlFor="to">To</label>
