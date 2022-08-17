@@ -5,6 +5,7 @@ import styles from "./TransactionSuccess.module.css";
 import { ITransactionData } from "../../interfaces";
 import constants from "../../constants";
 import Button from "../common/Button";
+import { getStorage } from "../../service/storage";
 
 const TransactionSuccess = () => {
   const [transactionData, setTransactionData] = useState<ITransactionData>(
@@ -17,9 +18,9 @@ const TransactionSuccess = () => {
   };
 
   useEffect(() => {
-    const transaction = sessionStorage.getItem(constants.TRANSACTION_DATA);
+    const transaction = getStorage(constants.TRANSACTION_DATA);
     if (transaction) {
-      setTransactionData(JSON.parse(transaction));
+      setTransactionData(transaction);
     } else {
       router.push("/");
     }

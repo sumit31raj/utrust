@@ -10,6 +10,7 @@ import NewAddress from "./NewAddress";
 
 import styles from "./Transactions.module.css";
 import { IAddress } from "../../interfaces";
+import { getStorage, setStorage } from "../../service/storage";
 
 const Transactions = () => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
@@ -30,9 +31,7 @@ const Transactions = () => {
 
   const handleAdd = async () => {
     if (newAddress.privateKey) {
-      const prevAddress: IAddress[] = JSON.parse(
-        sessionStorage.getItem(constants.ADDRESSES) || "[]"
-      );
+      const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
       const add = await getAddress(newAddress.privateKey);
       const address = {
         address: add,
@@ -41,7 +40,7 @@ const Transactions = () => {
       };
       setAddresses([...addresses, address]);
       prevAddress.push(address);
-      sessionStorage.setItem(constants.ADDRESSES, JSON.stringify(prevAddress));
+      setStorage(constants.ADDRESSES, prevAddress)
       setIsModal(false);
       setNewAddress(constants.NEW_ADDRESS);
     }
@@ -53,9 +52,7 @@ const Transactions = () => {
 
   useEffect(() => {
     const fetchAddresses = async () => {
-      const prevAddress: IAddress[] = JSON.parse(
-        sessionStorage.getItem(constants.ADDRESSES) || "[]"
-      );
+      const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
       const tempAccounts: IAddress[] = [];
       for (let index = 0; index < prevAddress.length; index++) {
         const balance = await getBalance(prevAddress[index]?.address);

@@ -12,6 +12,7 @@ import {
 } from "../../service/blockchain";
 
 import styles from "./SendTransaction.module.css";
+import { getStorage, setStorage } from "../../service/storage";
 
 const AddTransaction = () => {
   const [loader, setLoader] = useState<Boolean>(false);
@@ -51,10 +52,10 @@ const AddTransaction = () => {
         try {
           const transaction = await sendTransaction(tx);
           setLoader(false);
-          sessionStorage.setItem(
-            constants.TRANSACTION_DATA,
-            JSON.stringify({ ...transactionData, txHash: transaction?.hash })
-          );
+          setStorage(constants.TRANSACTION_DATA, {
+            ...transactionData,
+            txHash: transaction?.hash,
+          });
           router.push("/send/success");
         } catch (error) {
           console.log("error : ", error);
@@ -69,9 +70,7 @@ const AddTransaction = () => {
   };
 
   useEffect(() => {
-    const prevAddresses: IAddress[] = JSON.parse(
-      sessionStorage.getItem(constants.ADDRESSES) || "[]"
-    );
+    const prevAddresses: IAddress[] = getStorage(constants.ADDRESSES);
     setAddresses(prevAddresses);
   }, []);
 

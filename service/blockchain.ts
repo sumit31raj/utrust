@@ -1,7 +1,9 @@
 import { ethers, BigNumber as BigNum } from "ethers";
+var BigNumber = require('big-number');
+
 import constants from "../constants";
 import { IAddress } from "../interfaces";
-var BigNumber = require('big-number');
+import { getStorage } from "./storage";
 
 const provider =  ethers.getDefaultProvider("ropsten");
 
@@ -12,7 +14,7 @@ interface ITransaction {
 }
 
 const sendTransaction = async (tx: ITransaction) => {
-  const prevAddress: IAddress[] = JSON.parse(sessionStorage.getItem(constants.ADDRESSES) || "[]");
+  const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
   const privateKey = prevAddress.find(item => item.address === tx.from)?.privateKey
   const wallet = new ethers.Wallet(privateKey ? privateKey : "", provider);
   try {
@@ -41,7 +43,7 @@ const checkAddress = async (address: string) => {
 }
 
 const checkAmount = (amount: string, address: string) => {
-  const prevAddress: IAddress[] = JSON.parse(sessionStorage.getItem(constants.ADDRESSES) || "[]");
+  const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
   const balance = prevAddress.find(item => item?.address === address)?.balance || "0"
   const amountBig = new BigNumber(parseInt(amount))
   const balanceBig = new BigNumber(parseInt(balance))
