@@ -1,14 +1,15 @@
 import React from "react";
+
 import constants from "../../constants";
 import { IAddress } from "../../interfaces";
 import Button from "../common/Button";
-import styles from "./Transactions.module.css";
 
+import styles from "./Transactions.module.css";
 interface INewAddressProps {
-  newAddress: any,
-  toggleModal: () => void,
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  handleAdd: () => void
+  newAddress: IAddress;
+  toggleModal: () => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleAdd: () => void;
 }
 
 const NewAddress = ({ newAddress, toggleModal, handleChange, handleAdd }: INewAddressProps) => {

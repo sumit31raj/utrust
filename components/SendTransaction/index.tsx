@@ -3,16 +3,12 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 
 import Button from "../common/Button";
-import { IAddress, ITransactionData } from "../../interfaces";
 import constants from "../../constants";
-import {
-  checkAddress,
-  checkAmount,
-  sendTransaction,
-} from "../../service/blockchain";
+import { checkAddress, checkAmount, sendTransaction } from "../../service/blockchain";
+import { getStorage, setStorage } from "../../service/storage";
+import { IAddress, ITransactionData } from "../../interfaces";
 
 import styles from "./SendTransaction.module.css";
-import { getStorage, setStorage } from "../../service/storage";
 
 const AddTransaction = () => {
   const [loader, setLoader] = useState<Boolean>(false);
@@ -36,12 +32,7 @@ const AddTransaction = () => {
   };
 
   const handleSend = async () => {
-    if (
-      transactionData.from &&
-      transactionData.to &&
-      transactionData.amount &&
-      checkAddress(transactionData.to)
-    ) {
+    if (transactionData.from && transactionData.to && transactionData.amount && checkAddress(transactionData.to)) {
       if (checkAmount(transactionData.amount, transactionData.from)) {
         setLoader(true);
         let tx = {

@@ -7,15 +7,15 @@ import CONSTANTS from "../../constants";
 import { getAddress, getBalance } from "../../service/blockchain";
 import constants from "../../constants";
 import NewAddress from "./NewAddress";
+import { getStorage, setStorage } from "../../service/storage";
+import { IAddress } from "../../interfaces";
 
 import styles from "./Transactions.module.css";
-import { IAddress } from "../../interfaces";
-import { getStorage, setStorage } from "../../service/storage";
 
 const Transactions = () => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [isModal, setIsModal] = useState(false);
-  const [newAddress, setNewAddress] = useState(constants.NEW_ADDRESS);
+  const [newAddress, setNewAddress] = useState<IAddress>(constants.NEW_ADDRESS);
   const router = useRouter();
 
   const handleNavigateToSend = () => {
@@ -23,7 +23,7 @@ const Transactions = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewAddress((prevData: any) => ({
+    setNewAddress((prevData: IAddress) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
@@ -40,7 +40,7 @@ const Transactions = () => {
       };
       setAddresses([...addresses, address]);
       prevAddress.push(address);
-      setStorage(constants.ADDRESSES, prevAddress)
+      setStorage(constants.ADDRESSES, prevAddress);
       setIsModal(false);
       setNewAddress(constants.NEW_ADDRESS);
     }

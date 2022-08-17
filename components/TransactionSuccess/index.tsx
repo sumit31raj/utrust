@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import styles from "./TransactionSuccess.module.css";
 import { ITransactionData } from "../../interfaces";
 import constants from "../../constants";
 import Button from "../common/Button";
 import { getStorage } from "../../service/storage";
 
+import styles from "./TransactionSuccess.module.css";
+
 const TransactionSuccess = () => {
-  const [transactionData, setTransactionData] = useState<ITransactionData>(
-    constants.TRANSACTION_FORM
-  );
+  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.TRANSACTION_FORM);
   const router = useRouter();
 
   const handleNavigateHome = () => {
