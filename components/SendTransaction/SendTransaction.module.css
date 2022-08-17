@@ -62,7 +62,7 @@
 }
 
 .submitButton {
-  text-align: right;
-  width: fit-content;
-  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

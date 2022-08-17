@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 
 import Button from "../common/Button";
-import CONSTANT from "../../constants";
 import { IAddress, ITransactionData } from "../../interfaces";
 import constants from "../../constants";
 import {
@@ -31,12 +30,9 @@ const AddTransaction = () => {
     }));
   };
 
-  useEffect(() => {
-    const prevAddresses: IAddress[] = JSON.parse(
-      sessionStorage.getItem(constants.ADDRESSES) || "[]"
-    );
-    setAddresses(prevAddresses);
-  }, []);
+  const handleNavigateHome = () => {
+    router.push("/");
+  };
 
   const handleSend = async () => {
     if (
@@ -57,7 +53,7 @@ const AddTransaction = () => {
           setLoader(false);
           sessionStorage.setItem(
             constants.TRANSACTION_DATA,
-            JSON.stringify(transactionData)
+            JSON.stringify({ ...transactionData, txHash: transaction?.hash })
           );
           router.push("/send/success");
         } catch (error) {
@@ -71,6 +67,13 @@ const AddTransaction = () => {
       console.log("Invalid form");
     }
   };
+
+  useEffect(() => {
+    const prevAddresses: IAddress[] = JSON.parse(
+      sessionStorage.getItem(constants.ADDRESSES) || "[]"
+    );
+    setAddresses(prevAddresses);
+  }, []);
 
   return (
     <div className={styles.card}>
@@ -120,7 +123,12 @@ const AddTransaction = () => {
             />
           </div>
           <div className={styles.submitButton}>
-            <Button text={CONSTANT.SEND} loader={loader} onClick={handleSend} />
+            <Button text={constants.PREV} onClick={handleNavigateHome} />
+            <Button
+              text={constants.SEND}
+              loader={loader}
+              onClick={handleSend}
+            />
           </div>
         </form>
       </div>

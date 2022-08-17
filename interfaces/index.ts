@@ -1,7 +1,8 @@
 export interface ITransactionData {
-  from: string;
-  to: string;
-  amount: string;
+  from: string,
+  to: string,
+  amount: string,
+  txHash: string
 }
 
 export interface IAddress {

@@ -5,7 +5,7 @@ import Button from "../common/Button";
 import styles from "./Transactions.module.css";
 
 interface INewAddressProps {
-  newAddress: IAddress,
+  newAddress: any,
   toggleModal: () => void,
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   handleAdd: () => void
@@ -20,22 +20,11 @@ const NewAddress = ({ newAddress, toggleModal, handleChange, handleAdd }: INewAd
         </span>
         <form>
           <div className={styles.field}>
-            <label htmlFor="to">Address</label>
-            <input
-              type="text"
-              id="to"
-              name="address"
-              placeholder="Address"
-              value={newAddress.address}
-              onChange={handleChange}
-            />
-          </div>
-          <div className={styles.field}>
             <label htmlFor="address">Private Key</label>
             <input
               type="text"
               name="privateKey"
-              placeholder="Private Key"
+              placeholder="Enter Private Key"
               className={styles.amountInput}
               value={newAddress.privateKey}
               onChange={handleChange}

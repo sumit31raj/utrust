@@ -5,13 +5,16 @@ export default {
     "d0b0dea81621c16faa0ede228b91570b398a09eef617948fd46abbe433854829",
   NEXT: "Next",
   SEND: "Send",
+  PREV: "Previous",
+  HOME: "Go to Home",
   ADD: "Add",
   ADDRESSES: "addresses",
   TRANSACTION_DATA: "transactionData",
-  NEW_ADDRESS: { address: "", privateKey: "", balance: "" },
+  NEW_ADDRESS: { privateKey: "", balance: "" },
   TRANSACTION_FORM: {
     from: "",
     to: "",
     amount: "",
+    txHash: ""
   },
 };

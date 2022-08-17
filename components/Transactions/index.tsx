@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Button from "../common/Button";
 import { ROUTES } from "../routes";
 import CONSTANTS from "../../constants";
-import { checkAddress, getBalance } from "../../service/blockchain";
+import { getAddress, getBalance } from "../../service/blockchain";
 import constants from "../../constants";
 import NewAddress from "./NewAddress";
 
@@ -22,25 +22,22 @@ const Transactions = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewAddress((prevData: IAddress) => ({
+    setNewAddress((prevData: any) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
   };
 
   const handleAdd = async () => {
-    if (
-      newAddress.address &&
-      newAddress.privateKey &&
-      checkAddress(newAddress.address)
-    ) {
+    if (newAddress.privateKey) {
       const prevAddress: IAddress[] = JSON.parse(
         sessionStorage.getItem(constants.ADDRESSES) || "[]"
       );
+      const add = await getAddress(newAddress.privateKey);
       const address = {
-        address: newAddress.address,
+        address: add,
         privateKey: newAddress.privateKey,
-        balance: await getBalance(newAddress.address),
+        balance: await getBalance(add),
       };
       setAddresses([...addresses, address]);
       prevAddress.push(address);
@@ -67,7 +64,7 @@ const Transactions = () => {
       setAddresses(tempAccounts);
     };
 
-    fetchAddresses()
+    fetchAddresses();
   }, []);
 
   return (
