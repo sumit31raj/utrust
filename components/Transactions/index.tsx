@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import Button from "../common/Button";
 import { ROUTES } from "../routes";
 import CONSTANTS from "../../constants";
-import { getAddress, getBalance } from "../../service/blockchain";
+import useBlockchain from "../../hooks/useBlockchain";
 import constants from "../../constants";
 import NewAddress from "./NewAddress";
-import { getStorage, setStorage } from "../../service/storage";
+import { getStorage, getStorageNetwork, setStorage } from "../../service/storage";
 import { IAddress } from "../../interfaces";
 
 import styles from "./Transactions.module.css";
@@ -17,6 +17,8 @@ const Transactions = () => {
   const [isModal, setIsModal] = useState(false);
   const [newAddress, setNewAddress] = useState<IAddress>(constants.NEW_ADDRESS);
   const router = useRouter();
+  const network = getStorageNetwork()
+  const { getAddress, getBalance } = useBlockchain(network);
 
   const handleNavigateToSend = () => {
     router.push(ROUTES.SEND);
@@ -54,7 +56,7 @@ const Transactions = () => {
     const fetchAddresses = async () => {
       const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
       const tempAccounts: IAddress[] = [];
-      for (let index = 0; index < prevAddress.length; index++) {
+      for (let index = 0; index < prevAddress?.length; index++) {
         const balance = await getBalance(prevAddress[index]?.address);
         tempAccounts.push({ ...prevAddress[index], balance: balance });
       }

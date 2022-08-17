@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 
 import Button from "../common/Button";
 import constants from "../../constants";
-import { checkAddress, checkAmount, sendTransaction } from "../../service/blockchain";
-import { getStorage, setStorage } from "../../service/storage";
+import useBlockchain from "../../hooks/useBlockchain";
+import { getStorage, getStorageNetwork, setStorage } from "../../service/storage";
 import { IAddress, ITransactionData } from "../../interfaces";
 
 import styles from "./SendTransaction.module.css";
@@ -13,9 +13,9 @@ import styles from "./SendTransaction.module.css";
 const AddTransaction = () => {
   const [loader, setLoader] = useState<Boolean>(false);
   const [addresses, setAddresses] = useState<IAddress[]>([]);
-  const [transactionData, setTransactionData] = useState<ITransactionData>(
-    constants.TRANSACTION_FORM
-  );
+  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.TRANSACTION_FORM);
+  const network = getStorageNetwork()
+  const { checkAddress, checkAmount, sendTransaction } = useBlockchain(network);
   const router = useRouter();
 
   const handleChange = (

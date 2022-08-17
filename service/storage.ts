@@ -1,9 +1,17 @@
 const setStorage = (name: string, value: any) => {
-  sessionStorage.setItem(name, JSON.stringify(value));
+  typeof sessionStorage !== "undefined" && sessionStorage.setItem(name, JSON.stringify(value));
 };
 
 const getStorage = (name: string) => {
-  return JSON.parse(sessionStorage.getItem(name) || "[]");
+  return typeof sessionStorage !== "undefined" && JSON.parse(sessionStorage.getItem(name) || "[]");
 };
 
-export { setStorage, getStorage };
+const setStorageNetwork = (network: string) => {
+  typeof sessionStorage !== "undefined" && sessionStorage.setItem("network", network);
+}
+
+const getStorageNetwork = () => {
+  return (typeof sessionStorage !== "undefined" && sessionStorage.getItem("network")) || "ropsten";
+}
+
+export { setStorage, getStorage, setStorageNetwork, getStorageNetwork };

@@ -6,6 +6,7 @@ export default {
   ADD: "Add",
   ADDRESSES: "addresses",
   TRANSACTION_DATA: "transactionData",
+  NETWORK: "network",
   NEW_ADDRESS: { address: "", privateKey: "", balance: "" },
   TRANSACTION_FORM: {
     from: "",
@@ -13,4 +14,6 @@ export default {
     amount: "",
     txHash: ""
   },
+  NETWORKS: ["Ropsten", "Mainnet", "Rinkeby", "Kovan"],
+  ETHERSCAN: "DWPCZS5P54NECD3IRRNA6PCV4QXQ878A7J"
 };
