@@ -9,7 +9,7 @@ interface ILayout {
 }
 
 const Layout = ({ children }: ILayout) => {
-  const [network, setNetwork] = useState("ropsten")
+  const [network, setNetwork] = useState(constants.ROPSTEN)
   
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value

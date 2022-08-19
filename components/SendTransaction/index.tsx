@@ -6,14 +6,15 @@ import Button from "../common/Button";
 import constants from "../../constants";
 import useBlockchain from "../../hooks/useBlockchain";
 import { getStorage, getStorageNetwork, setStorage } from "../../service/storage";
-import { IAddress, ITransactionData } from "../../interfaces";
+import { IAccount, ITransactionData } from "../../interfaces";
+import { ROUTES } from "../routes";
 
 import styles from "./SendTransaction.module.css";
 
-const AddTransaction = () => {
+const SendTransaction = () => {
   const [loader, setLoader] = useState<Boolean>(false);
-  const [addresses, setAddresses] = useState<IAddress[]>([]);
-  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.TRANSACTION_FORM);
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
+  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.DEFAULT_TRANSACTION);
   const network = getStorageNetwork()
   const { checkAddress, checkAmount, sendTransaction } = useBlockchain(network);
   const router = useRouter();
@@ -28,14 +29,14 @@ const AddTransaction = () => {
   };
 
   const handleNavigateHome = () => {
-    router.push("/");
+    router.push(ROUTES.HOME);
   };
 
   const handleSend = async () => {
     if (transactionData.from && transactionData.to && transactionData.amount && checkAddress(transactionData.to)) {
       if (checkAmount(transactionData.amount, transactionData.from)) {
         setLoader(true);
-        let tx = {
+        const tx = {
           from: transactionData.from,
           to: transactionData.to,
           value: ethers.utils.parseEther(transactionData.amount),
@@ -47,7 +48,7 @@ const AddTransaction = () => {
             ...transactionData,
             txHash: transaction?.hash,
           });
-          router.push("/send/success");
+          router.push(ROUTES.SUCCESS);
         } catch (error) {
           console.log("error : ", error);
           setLoader(false);
@@ -61,8 +62,8 @@ const AddTransaction = () => {
   };
 
   useEffect(() => {
-    const prevAddresses: IAddress[] = getStorage(constants.ADDRESSES);
-    setAddresses(prevAddresses);
+    const prevAddresses: IAccount[] = getStorage(constants.ACCOUNTS);
+    setAccounts(prevAddresses);
   }, []);
 
   return (
@@ -83,7 +84,7 @@ const AddTransaction = () => {
               <option selected disabled value={""} hidden>
                 Your Address
               </option>
-              {addresses.map((account, index) => (
+              {accounts.map((account, index) => (
                 <option key={index} value={account.address}>
                   {account.address}
                 </option>
@@ -126,4 +127,4 @@ const AddTransaction = () => {
   );
 };
 
-export default AddTransaction;
+export default SendTransaction;

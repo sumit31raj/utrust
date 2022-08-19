@@ -1,7 +1,7 @@
 import { ethers, BigNumber as BigNum } from "ethers";
 var BigNumber = require("big-number");
 
-import { IAddress } from "../interfaces";
+import { IAccount } from "../interfaces";
 import { getStorage } from "../service/storage";
 import constants from "../constants";
 
@@ -17,7 +17,7 @@ const useBlockchain = (network: string) => {
   });
 
   const sendTransaction = async (tx: ITransaction) => {
-    const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
+    const prevAddress: IAccount[] = getStorage(constants.ACCOUNTS);
     const privateKey = prevAddress.find(
       (item) => item.address === tx.from
     )?.privateKey;
@@ -43,12 +43,20 @@ const useBlockchain = (network: string) => {
     return balanceInEth;
   };
 
+  const checkPrivateKey = (privateKey: string) => {
+    try {
+      return new ethers.Wallet(privateKey, );
+    } catch (e) {
+      return false
+    }
+  };
+
   const checkAddress = async (address: string) => {
     return ethers.utils.isAddress(address);
   };
 
   const checkAmount = (amount: string, address: string) => {
-    const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
+    const prevAddress: IAccount[] = getStorage(constants.ACCOUNTS);
     const balance =
       prevAddress.find((item) => item?.address === address)?.balance || "0";
     const amountBig = new BigNumber(parseInt(amount));
@@ -56,7 +64,7 @@ const useBlockchain = (network: string) => {
     return amountBig.lt(balanceBig);
   };
 
-  return { provider, sendTransaction, getAddress, getBalance, checkAddress, checkAmount };
+  return { provider, sendTransaction, getAddress, getBalance, checkAddress, checkAmount, checkPrivateKey };
 };
 
 export default useBlockchain;

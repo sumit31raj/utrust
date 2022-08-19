@@ -5,15 +5,16 @@ import { ITransactionData } from "../../interfaces";
 import constants from "../../constants";
 import Button from "../common/Button";
 import { getStorage } from "../../service/storage";
+import { ROUTES } from "../routes";
 
 import styles from "./TransactionSuccess.module.css";
 
 const TransactionSuccess = () => {
-  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.TRANSACTION_FORM);
+  const [transactionData, setTransactionData] = useState<ITransactionData>(constants.DEFAULT_TRANSACTION);
   const router = useRouter();
 
   const handleNavigateHome = () => {
-    router.push("/");
+    router.push(ROUTES.HOME);
   };
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const TransactionSuccess = () => {
     if (transaction) {
       setTransactionData(transaction);
     } else {
-      router.push("/");
+      router.push(ROUTES.HOME);
     }
   }, []);
 

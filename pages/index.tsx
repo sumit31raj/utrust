@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 
-import Transactions from "../components/Transactions";
+import WalletDashboard from "../components/WalletDashboard";
 
 const Home: NextPage = () => {
-  return <Transactions />;
+  return <WalletDashboard />;
 };
 
 export default Home;

@@ -5,7 +5,7 @@ export interface ITransactionData {
   txHash: string
 }
 
-export interface IAddress {
+export interface IAccount {
   address: string,
   privateKey: string,
   balance: string

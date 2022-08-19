@@ -6,45 +6,51 @@ import { ROUTES } from "../routes";
 import CONSTANTS from "../../constants";
 import useBlockchain from "../../hooks/useBlockchain";
 import constants from "../../constants";
-import NewAddress from "./NewAddress";
+import NewAccountModal from "./NewAccountModal";
 import { getStorage, getStorageNetwork, setStorage } from "../../service/storage";
-import { IAddress } from "../../interfaces";
+import { IAccount } from "../../interfaces";
+import Loader from "../common/Loader/Loader";
 
-import styles from "./Transactions.module.css";
+import styles from "./WalletDashboard.module.css";
 
-const Transactions = () => {
-  const [addresses, setAddresses] = useState<IAddress[]>([]);
+const WalletDashboard = () => {
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
   const [isModal, setIsModal] = useState(false);
-  const [newAddress, setNewAddress] = useState<IAddress>(constants.NEW_ADDRESS);
+  const [loader, setLoader] = useState(false)
+  const [newAccount, setNewAccount] = useState<IAccount>(constants.DEFAULT_ACCOUNT);
   const router = useRouter();
   const network = getStorageNetwork()
-  const { getAddress, getBalance } = useBlockchain(network);
+  const { getAddress, getBalance, checkPrivateKey } = useBlockchain(network);
 
   const handleNavigateToSend = () => {
     router.push(ROUTES.SEND);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewAddress((prevData: IAddress) => ({
+    setNewAccount((prevData: IAccount) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
   };
 
   const handleAdd = async () => {
-    if (newAddress.privateKey) {
-      const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
-      const add = await getAddress(newAddress.privateKey);
-      const address = {
+    if (newAccount.privateKey && checkPrivateKey(newAccount.privateKey)) {
+      setLoader(true)
+      const prevAccounts: IAccount[] = getStorage(constants.ACCOUNTS);
+      const add = await getAddress(newAccount.privateKey);
+      const newAcc = {
         address: add,
-        privateKey: newAddress.privateKey,
+        privateKey: newAccount.privateKey,
         balance: await getBalance(add),
       };
-      setAddresses([...addresses, address]);
-      prevAddress.push(address);
-      setStorage(constants.ADDRESSES, prevAddress);
+      setAccounts([...accounts, newAcc]);
+      prevAccounts.push(newAcc);
+      setStorage(constants.ACCOUNTS, prevAccounts);
       setIsModal(false);
-      setNewAddress(constants.NEW_ADDRESS);
+      setNewAccount(constants.DEFAULT_ACCOUNT);
+      setLoader(false)
+    } else {
+      console.log("Invalid Private Key")
     }
   };
 
@@ -52,30 +58,37 @@ const Transactions = () => {
     setIsModal(!isModal);
   };
 
+  const getAccountDetails = async () => {
+    const prevAccounts: IAccount[] = getStorage(constants.ACCOUNTS)
+    return prevAccounts.map(async (account) => ({
+      ...account,
+      balance: await getBalance(account?.address)
+    }))
+  }
+
   useEffect(() => {
-    const fetchAddresses = async () => {
-      const prevAddress: IAddress[] = getStorage(constants.ADDRESSES);
-      const tempAccounts: IAddress[] = [];
-      for (let index = 0; index < prevAddress?.length; index++) {
-        const balance = await getBalance(prevAddress[index]?.address);
-        tempAccounts.push({ ...prevAddress[index], balance: balance });
-      }
-      setAddresses(tempAccounts);
+    const fetchAccounts = async () => {
+      setLoader(true)
+      const promises = await getAccountDetails()
+      const tempAccounts = await Promise.all(promises)
+      setAccounts(tempAccounts);
+      setLoader(false)
     };
 
-    fetchAddresses();
+    fetchAccounts();
   }, []);
 
   return (
     <>
+      {loader && <Loader />}
       <div className={styles.card}>
         <div className={styles.cardTitle}>
           My Ethereum addresses{" "}
           <Button text={CONSTANTS.ADD} onClick={toggleModal} />
         </div>
         <div className={styles.cardBody}>
-          {addresses.length ? (
-            addresses.map((account, index) => (
+          {accounts.length ? (
+            accounts.map((account, index) => (
               <div className={styles.transactionItem} key={index}>
                 <h3 className={styles.address}>{account?.address}</h3>
                 <h2 className={styles.amount}>
@@ -85,7 +98,7 @@ const Transactions = () => {
             ))
           ) : (
             <div className={styles.notFound}>
-              <h3 className={styles.amount}>{"Address not found"}</h3>
+              <h3 className={styles.amount}>{constants.ADDRESS_NOT_FOUND}</h3>
             </div>
           )}
         </div>
@@ -96,8 +109,8 @@ const Transactions = () => {
       </div>
 
       {isModal && (
-        <NewAddress
-          newAddress={newAddress}
+        <NewAccountModal
+          newAddress={newAccount}
           toggleModal={toggleModal}
           handleChange={handleChange}
           handleAdd={handleAdd}
@@ -107,4 +120,4 @@ const Transactions = () => {
   );
 };
 
-export default Transactions;
+export default WalletDashboard;

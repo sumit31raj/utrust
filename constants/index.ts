@@ -4,16 +4,18 @@ export default {
   PREV: "Previous",
   HOME: "Go to Home",
   ADD: "Add",
-  ADDRESSES: "addresses",
+  ACCOUNTS: "accounts",
   TRANSACTION_DATA: "transactionData",
   NETWORK: "network",
-  NEW_ADDRESS: { address: "", privateKey: "", balance: "" },
-  TRANSACTION_FORM: {
+  DEFAULT_ACCOUNT: { address: "", privateKey: "", balance: "" },
+  DEFAULT_TRANSACTION: {
     from: "",
     to: "",
     amount: "",
     txHash: ""
   },
+  ROPSTEN: "ropsten",
   NETWORKS: ["Ropsten", "Mainnet", "Rinkeby", "Kovan"],
-  ETHERSCAN: "DWPCZS5P54NECD3IRRNA6PCV4QXQ878A7J"
+  ETHERSCAN: "DWPCZS5P54NECD3IRRNA6PCV4QXQ878A7J",
+  ADDRESS_NOT_FOUND: "Address not found"
 };

@@ -1,18 +1,19 @@
 import React from "react";
 
 import constants from "../../constants";
-import { IAddress } from "../../interfaces";
+import { IAccount } from "../../interfaces";
 import Button from "../common/Button";
 
-import styles from "./Transactions.module.css";
+import styles from "./WalletDashboard.module.css";
+
 interface INewAddressProps {
-  newAddress: IAddress;
+  newAddress: IAccount;
   toggleModal: () => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleAdd: () => void;
 }
 
-const NewAddress = ({ newAddress, toggleModal, handleChange, handleAdd }: INewAddressProps) => {
+const NewAccountModal = ({ newAddress, toggleModal, handleChange, handleAdd }: INewAddressProps) => {
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -40,4 +41,4 @@ const NewAddress = ({ newAddress, toggleModal, handleChange, handleAdd }: INewAd
   );
 };
 
-export default NewAddress;
+export default NewAccountModal;
