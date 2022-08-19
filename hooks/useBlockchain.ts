@@ -51,7 +51,7 @@ const useBlockchain = (network: string) => {
     }
   };
 
-  const checkAddress = async (address: string) => {
+  const checkAddress = (address: string) => {
     return ethers.utils.isAddress(address);
   };
 

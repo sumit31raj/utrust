@@ -6,14 +6,14 @@ import Button from "../common/Button";
 
 import styles from "./WalletDashboard.module.css";
 
-interface INewAddressProps {
-  newAddress: IAccount;
+interface INewAccountProps {
+  newAccount: IAccount;
   toggleModal: () => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleAdd: () => void;
 }
 
-const NewAccountModal = ({ newAddress, toggleModal, handleChange, handleAdd }: INewAddressProps) => {
+const NewAccountModal = ({ newAccount, toggleModal, handleChange, handleAdd }: INewAccountProps) => {
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -28,7 +28,7 @@ const NewAccountModal = ({ newAddress, toggleModal, handleChange, handleAdd }: I
               name="privateKey"
               placeholder="Enter Private Key"
               className={styles.amountInput}
-              value={newAddress.privateKey}
+              value={newAccount.privateKey}
               onChange={handleChange}
             />
           </div>

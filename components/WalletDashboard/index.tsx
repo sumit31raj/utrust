@@ -110,7 +110,7 @@ const WalletDashboard = () => {
 
       {isModal && (
         <NewAccountModal
-          newAddress={newAccount}
+          newAccount={newAccount}
           toggleModal={toggleModal}
           handleChange={handleChange}
           handleAdd={handleAdd}
