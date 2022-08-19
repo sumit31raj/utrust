@@ -1,3 +1,13 @@
+## Improvements & Enhancements
+
+- Add encryption for safely storage of keys
+- Currently we are storing data in Session Storage, we can move to other state management tools like Redux with pin
+- We are using etherscan apis for transaction & there is a limit for multiple transactions.
+- Add transaction history for logging.
+
+
+==================================
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
